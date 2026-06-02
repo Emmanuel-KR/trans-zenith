@@ -126,15 +126,15 @@ export default function TransactionPortal() {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Box sx={{ p: 3, bgcolor: "#f5f6f8", minHeight: "100vh" }}>
-        <Typography variant="h5" fontWeight={600} mb={2}>
+        <Typography variant="h5" sx={{ fontWeight: 600, mb: 2 }}>
           Transaction Reporting Portal
         </Typography>
 
         {/* Toolbar */}
         <Paper elevation={1} sx={{ p: 2, mb: 2, border: "1px solid", borderColor: "divider" }}>
-          <Stack direction="row" spacing={2} alignItems="center" flexWrap="nowrap">
+          <Stack direction="row" spacing={2} sx={{ alignItems: "center", flexWrap: "nowrap" }}>
             {/* Date */}
-            <Stack direction="row" alignItems="center" spacing={0.5}>
+            <Stack direction="row" spacing={0.5} sx={{ alignItems: "center" }}>
               <FormControl size="small" sx={{ minWidth: 170 }}>
                 <InputLabel>Date</InputLabel>
                 <Select
@@ -283,7 +283,7 @@ export default function TransactionPortal() {
         </Paper>
 
         {/* Pagination */}
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mt={2}>
+        <Stack direction="row" spacing={2} sx={{ alignItems: "center", justifyContent: "space-between", mt: 2 }}>
           <Typography variant="body2" color="text.secondary">
             Showing {showingFrom}–{showingTo} of {filtered.length} results
           </Typography>
@@ -305,7 +305,7 @@ export default function TransactionPortal() {
           anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
           slotProps={{ paper: { sx: { p: 2, width: 520 } } }}
         >
-          <Stack direction="row" spacing={3} flexWrap="wrap">
+          <Stack direction="row" spacing={3} sx={{ flexWrap: "wrap" }}>
             <FilterGroup title="Transaction Type" options={TX_TYPES} selected={selectedTypes}
               onToggle={(v) => toggle(selectedTypes, v, setSelectedTypes)} />
             <FilterGroup title="DB Name" options={DB_NAMES} selected={selectedDbs}
@@ -316,7 +316,7 @@ export default function TransactionPortal() {
               onToggle={(v) => toggle(selectedInsts, v, setSelectedInsts)} />
           </Stack>
           <Divider sx={{ my: 2 }} />
-          <Stack direction="row" justifyContent="flex-end">
+          <Stack direction="row" sx={{ justifyContent: "flex-end" }}>
             <Button onClick={resetFilterPanel} size="small">Reset Filters</Button>
           </Stack>
         </Popover>
@@ -325,7 +325,7 @@ export default function TransactionPortal() {
         <Dialog open={exportOpen} onClose={() => setExportOpen(false)} maxWidth="sm" fullWidth>
           <DialogTitle>Export Transactions</DialogTitle>
           <DialogContent>
-            <Typography variant="body2" color="text.secondary" mb={2}>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
               Choose a format to export the current filtered results.
             </Typography>
             <Stack direction="row" spacing={2}>
@@ -346,7 +346,7 @@ export default function TransactionPortal() {
                   <CardActionArea onClick={() => setExportFormat(opt.key)}>
                     <CardContent sx={{ textAlign: "center", py: 3 }}>
                       {opt.icon}
-                      <Typography mt={1}>{opt.label}</Typography>
+                      <Typography sx={{ mt: 1 }}>{opt.label}</Typography>
                     </CardContent>
                   </CardActionArea>
                 </Card>
