@@ -1,0 +1,124 @@
+.navi-header-container {
+  font-family: "Averta-Bolder", sans-serif;
+  line-height: 24px;
+  color: #374151;
+  background-color: #ffffff;
+  width: 100%;
+  height: 64px;
+  z-index: 1100;
+  top: 0;
+  left: 0;
+  right: 0;
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.logo-header-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: 28px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.header-logo-img {
+  height: 26px;
+  width: auto;
+  display: block;
+}
+
+.header-logo-divider {
+  color: #d1d5db;
+  font-weight: 400;
+}
+
+.app-header-container {
+  display: flex;
+  align-items: center;
+  margin-right: 28px;
+}
+
+.header-user-details {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.header-user-details:hover {
+  background: #f3f4f6;
+}
+
+.header-avatar {
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Averta-Bold", sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.header-user-text h1 {
+  color: #353f50;
+  font-size: 13px;
+  line-height: 18px;
+  margin: 0;
+  font-family: "Averta-Bold", sans-serif;
+  font-weight: 700;
+}
+
+.header-user-text h2 {
+  color: #5f738c;
+  font-size: 12px;
+  line-height: 16px;
+  margin: 0;
+  font-family: "Averta-Bold", sans-serif;
+}
+
+.header-popover {
+  min-width: 160px;
+  padding: 4px 0;
+}
+
+.header-popover-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  font-family: "Averta-Bold", sans-serif;
+  font-size: 13px;
+  line-height: 20px;
+  color: #1f2937;
+  cursor: pointer;
+}
+
+.header-popover-item:hover {
+  background: #f3f4f6;
+}
+
+.header-popover-item svg {
+  font-size: 1.2em;
+}
+
+@media only screen and (max-width: 700px) {
+  .logo-header-container {
+    margin-left: 16px;
+    font-size: 15px;
+  }
+  .app-header-container {
+    margin-right: 12px;
+  }
+  .header-user-text {
+    display: none;
+  }
+}

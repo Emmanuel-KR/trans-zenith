@@ -1,16 +1,26 @@
-import { QueryClient } from "@tanstack/react-query";
-import { createRouter } from "@tanstack/react-router";
-import { routeTree } from "./routeTree.gen";
+import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
 
-export const getRouter = () => {
-  const queryClient = new QueryClient();
+import SignIn from "@/views/signin/SignIn";
+import MainApplication from "@/views/mainapplication/MainApplication";
+import { useAuth } from "@/utilities/shared/auth";
 
-  const router = createRouter({
-    routeTree,
-    context: { queryClient },
-    scrollRestoration: true,
-    defaultPreloadStaleTime: 0,
-  });
+/** Gate that redirects unauthenticated users to the sign-in view. */
+function ProtectedRoute() {
+  const { isAuthenticated } = useAuth();
+  return isAuthenticated ? <Outlet /> : <Navigate to="/signin" replace />;
+}
 
-  return router;
-};
+export const router = createBrowserRouter([
+  {
+    path: "/signin",
+    element: <SignIn />,
+  },
+  {
+    element: <ProtectedRoute />,
+    children: [{ path: "/", element: <MainApplication /> }],
+  },
+  {
+    path: "*",
+    element: <Navigate to="/" replace />,
+  },
+]);

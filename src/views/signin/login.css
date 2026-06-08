@@ -1,0 +1,90 @@
+.login-container {
+  font-family: "Averta", sans-serif;
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.login-form-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: #f5f6f8;
+}
+
+.login-form {
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  padding: 40px;
+  width: 100%;
+  max-width: 360px;
+  box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.04);
+}
+
+.login-logo {
+  height: 30px;
+  width: auto;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.login-form h1 {
+  font-size: 26px;
+  font-family: "Averta-Bolder", sans-serif;
+  color: #353f50;
+  margin: 0;
+}
+
+.login-form h3 {
+  font-size: 13px;
+  font-family: "Averta-Bold", sans-serif;
+  color: #5f738c;
+  margin: 6px 0 24px 0;
+}
+
+.login-form-actions {
+  margin-top: 8px;
+}
+
+.login-image-container {
+  flex: 1;
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+  border-top-left-radius: 40px;
+  border-bottom-left-radius: 40px;
+  overflow: hidden;
+}
+
+.login-image-overlay {
+  width: 70%;
+  padding: 24px;
+  margin-bottom: 64px;
+  font-family: "Averta-Bolder", sans-serif;
+  font-size: 26px;
+  line-height: 32px;
+  color: #ffffff;
+  text-align: center;
+}
+
+.fade-in {
+  animation: fadeIn 1.2s ease;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@media only screen and (min-width: 1100px) {
+  .login-image-container {
+    display: flex;
+  }
+}

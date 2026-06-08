@@ -1,0 +1,198 @@
+/* ---- Search input ---- */
+.search-input-container {
+  width: 16em;
+}
+
+.search-input {
+  display: flex;
+  align-items: center;
+  background-color: #f8f8f8;
+  border-radius: 4px;
+  border: 1px solid transparent;
+}
+
+.search-input:focus-within {
+  border: 1px solid #9ca3af;
+}
+
+.search-input input {
+  flex: 1;
+  min-width: 0;
+  max-height: 45px;
+  padding: 10px 4px;
+  background-color: transparent;
+  border: none;
+  font-family: "Averta-Bold", sans-serif;
+  font-size: 13px;
+  line-height: 21px;
+  color: #353f50;
+}
+
+.search-input input:focus {
+  outline: none;
+}
+
+.search-input input::placeholder {
+  color: #848f9f;
+}
+
+.search-input-icon,
+.search-input-icon-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 12px;
+  cursor: pointer;
+}
+
+.search-input-icon svg,
+.search-input-icon-close svg {
+  height: 0.9em;
+  width: 0.9em;
+  color: #5f738c;
+}
+
+/* ---- Filter / date trigger buttons ---- */
+.filter-input,
+.filter-date-input {
+  display: inline-block;
+}
+
+.filter-input button,
+.filter-date-input button {
+  display: inline-flex;
+  min-width: 130px;
+  padding: 10px 14px;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 4px;
+  border: 1px solid #353f50;
+  background: #ffffff;
+  font-family: "Averta-Bolder", sans-serif;
+  color: #353f50;
+  font-size: 13px;
+  cursor: pointer;
+  gap: 6px;
+}
+
+.filter-date-input button {
+  min-width: auto;
+}
+
+.filter-input button > svg,
+.filter-date-input button > svg {
+  height: 0.9em;
+  width: 0.9em;
+}
+
+/* ---- Popover ---- */
+.filter-popover {
+  padding: 12px 20px;
+  border-radius: 6px;
+  min-width: 220px;
+}
+
+.filter-popover-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.filter-popover-title {
+  color: #353f50;
+  font-family: "Averta-Bolder", sans-serif;
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: 700;
+}
+
+.filter-popover-close {
+  cursor: pointer;
+  font-size: 1.1em !important;
+}
+
+/* ---- Date options ---- */
+.filter-date-options {
+  margin: 6px 0;
+}
+
+.filter-date-options span {
+  display: block;
+  margin: 2px 0;
+  padding: 9px 8px;
+  border-radius: 4px;
+  font-family: "Averta-Bold", sans-serif;
+  color: #353f50;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.filter-date-suboptions {
+  padding: 8px 12px;
+  min-width: 180px;
+}
+
+.filter-date-range {
+  margin: 8px 0;
+}
+
+.filter-date-range-label {
+  display: block;
+  padding: 8px 10px;
+  margin-bottom: 4px;
+  border-radius: 4px;
+  background: #f8f8f8;
+  font-family: "Averta-Bold", sans-serif;
+  font-size: 13px;
+  color: #353f50;
+  text-align: center;
+}
+
+/* ---- Filter options ---- */
+.filter-options {
+  max-height: 180px;
+  min-height: 80px;
+  margin: 10px 0;
+  overflow-y: auto;
+}
+
+.filter-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 5px;
+}
+
+.filter-buttons button {
+  width: 90px;
+  padding: 9px 15px;
+}
+
+.filter-buttons button > span {
+  font-size: 12px;
+}
+
+/* ---- Checkbox / radio rows ---- */
+.checkbox-input {
+  display: flex;
+  align-items: center;
+  margin: 2px 0;
+}
+
+.checkbox-input-span {
+  margin-left: 8px;
+  color: #353f50;
+  font-family: "Averta-Bold", sans-serif;
+  font-size: 13px;
+}
+
+.input-label {
+  color: #353f50;
+  font-family: "Averta-Bolder", sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+  margin-bottom: 4px;
+  display: block;
+}

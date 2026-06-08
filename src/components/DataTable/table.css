@@ -1,0 +1,71 @@
+.table-container {
+  margin-top: 10px;
+}
+
+.table-pill {
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 12px;
+  font-family: "Averta-Bold", sans-serif;
+  min-width: 75px;
+  padding: 4px 10px;
+}
+
+.table-pill svg {
+  height: 0.5em;
+  width: 0.5em;
+  margin-right: 8px;
+}
+
+.table-pill.green {
+  color: #36743d;
+  border: 1px solid #bef2b9;
+  background: #f1fef1;
+}
+
+.table-pill.red {
+  color: #dc4437;
+  border: 1px solid #fbe9e9;
+  background: #fbe9e9;
+}
+
+.table-pill.orange {
+  color: #ec9b40;
+  border: 1px solid #fef6cf;
+  background: #fef6cf;
+}
+
+.table-pill.blue {
+  color: #0275d8;
+  border: 1px solid #cfe8fb;
+  background: #ebf8fe;
+}
+
+.table-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #353f50;
+}
+
+.table-actions svg {
+  cursor: pointer;
+  height: 0.95em;
+  width: 0.95em;
+}
+
+.table-data-span {
+  display: block;
+  padding: 32px 0;
+  text-align: center;
+  color: #353f50;
+  font-family: "Averta-Bolder", sans-serif;
+  font-size: 13px;
+}
+
+.table-pagination {
+  margin-top: 12px;
+  width: 100%;
+  align-items: flex-end;
+}

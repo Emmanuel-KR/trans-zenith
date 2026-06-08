@@ -1,0 +1,69 @@
+.add-button {
+  border-radius: 8px;
+  min-width: 125px;
+  display: inline-flex;
+  padding: 10px 16px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.add-button svg {
+  fill: #ffffff;
+  margin-right: 8px;
+  height: 0.9em;
+  width: 0.9em;
+}
+
+.add-button span {
+  color: #fff;
+  font-size: 13px;
+  font-family: "Averta-Bolder", sans-serif;
+  white-space: nowrap;
+}
+
+.form-button {
+  border-radius: 8px;
+  width: 175px;
+  height: fit-content;
+  display: flex;
+  padding: 12px 24px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin: 0 auto;
+  border: 1px solid transparent;
+}
+
+.form-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.form-button span {
+  color: #fff;
+  font-size: 13px;
+  font-family: "Averta-Bolder", sans-serif;
+}
+
+.cancel {
+  background-color: #ffffff;
+  border: 1px solid #6b7280 !important;
+}
+
+.cancel span {
+  color: #353f50 !important;
+}
+
+@media only screen and (max-width: 900px) {
+  .add-button {
+    min-width: auto;
+  }
+  .add-button span {
+    display: none;
+  }
+  .add-button svg {
+    margin-right: 0;
+  }
+}
