@@ -3,11 +3,11 @@
 // Override the base URL per environment with VITE_API_BASE_URL in .env.
 
 const URLS = {
-  TAG_BASE_URL: import.meta.env.VITE_API_BASE_URL ?? "http://localhost:3000",
+  TAG_BASE_URL: import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8000",
   TAG_BASE_PATH: "/api/v1",
 
   // Authentication
-  TAG_API_AUTH: "/authentication",
+  TAG_API_AUTH: "/auth/login",
   TAG_API_VALIDATE_OTP: "/validate-otp",
   TAG_API_LOGOUT: "/app/users/log-out",
   TAG_API_STATUS: "/keys",
@@ -17,8 +17,8 @@ const URLS = {
   TAG_API_PROFILE: "/app/user-profile",
 
   // Transactions
-  TAG_API_TRANSACTIONS: "/app/transactions",
-  TAG_API_TRANSACTION_EXPORT: "/app/transactions/export",
+  TAG_API_TRANSACTIONS: "/transactions",
+  TAG_API_TRANSACTION_EXPORT: "/transactions/export",
 
   // Audit
   TAG_API_TRANSACTION_AUDIT: "/app/audit-trail/transactions",

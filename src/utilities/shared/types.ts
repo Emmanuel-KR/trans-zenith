@@ -1,41 +1,47 @@
 // Shared domain types and reference data used across views and services.
 
-export type TxType = "Credit" | "Debit" | "Reversal" | "Transfer";
-export type RespType = "Success" | "Failed" | "Pending" | "Timeout";
+export type TxType = "QTWALLET" | "AIRTELWALLET" | "MPESAPAYBILL" | "BANK" | "VERWALLET" | "MPESAWALLET" | "MPESATILL" | "TKWALLET" | "ISW WALLET" | "VCWALLET" | "OTHER";
+export type RespType = "00" | "0" | "OTHER";
 export type DbName = "MainDB" | "ArchiveDB" | "BackupDB";
 
 export interface Transaction {
-  instId: string;
-  dateTime: Date;
-  paymentRef: string;
-  transactionType: TxType;
+  instid: string;
+  batchid: string;
+  batchdate: Date;
+  paymentserno: string;  
+  trantype: TxType;
   trace: string;
-  issuer: string;
+  issuercode: string;
   provider: string;
-  fromAccount: string;
-  toAccount: string;
-  toAccountName: string;
+  fromaccount: string;
+  toaccount: string;
+  toaccountname: string;  
   rrn: string;
   amount: number;
+  instfee: number;
   fee: number;
-  dbName: DbName;
-  responseType: RespType;
-  institution: string;
+  createdate: Date;
+  responsecode: string;
+  responsemessage: string;
+  inst:string;
+  profileName: string;
+  paymentName: string;
 }
 
-export const TX_TYPES: TxType[] = ["Credit", "Debit", "Reversal", "Transfer"];
-export const RESP_TYPES: RespType[] = ["Success", "Failed", "Pending", "Timeout"];
+export const TX_TYPES: TxType[] = ["QTWALLET", "AIRTELWALLET", "MPESAPAYBILL", "BANK", "VERWALLET", "MPESAWALLET", "MPESATILL", "TKWALLET", "ISW WALLET", "VCWALLET", "OTHER"];
+export const RESP_TYPES: RespType[] = ["00", "0", "OTHER"];
 export const DB_NAMES: DbName[] = ["MainDB", "ArchiveDB", "BackupDB"];
 
 export const INSTITUTIONS = [
-  "First National Bank",
-  "Global Trust Bank",
-  "Heritage Credit Union",
-  "Pinnacle Financial",
-  "Summit Savings",
-  "Atlas Bank",
-  "Meridian Capital",
-  "Cornerstone Bank",
+  "ACCESS BANK PLC",
+  "DISBURSE TEST 2",
+  "DISBURSE TEST 3",
+  "Ellie Technologies",
+  "FIRE BANK",
+  "GT BANK KE",
+  "Sheria Sacco",
+  "M-ORIENTAL BANK",
+  "Nine One One",
 ];
 
 export interface Credentials {

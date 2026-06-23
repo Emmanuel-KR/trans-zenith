@@ -27,6 +27,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const logout = useCallback(() => {
+    databaseService.logout();
     window.localStorage.removeItem(STORAGE_KEY);
     setUser(null);
   }, []);
