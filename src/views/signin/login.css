@@ -11,7 +11,6 @@
   align-items: center;
   justify-content: center;
   padding: 24px;
-  background: #f5f6f8;
 }
 
 .login-form {
@@ -51,6 +50,7 @@
 
 .login-image-container {
   flex: 1;
+  position: relative;
   display: none;
   align-items: flex-end;
   justify-content: center;
@@ -60,14 +60,40 @@
 }
 
 .login-image-overlay {
-  width: 70%;
+  width: 66%;
   padding: 24px;
-  margin-bottom: 64px;
+  margin-bottom: 96px;
   font-family: "Averta-Bolder", sans-serif;
   font-size: 26px;
   line-height: 32px;
   color: #ffffff;
   text-align: center;
+}
+
+.login-dots {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.login-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid #ffffff;
+  background: rgba(255, 255, 255, 0.4);
+  transition: all 0.3s ease;
+}
+
+.login-dot.active {
+  width: 28px;
+  height: 8px;
+  border-radius: 4px;
+  background: #ffffff;
 }
 
 .fade-in {
@@ -83,8 +109,13 @@
   }
 }
 
+/* Large screens: image lives on the right, the form sits on a white left panel. */
 @media only screen and (min-width: 1100px) {
   .login-image-container {
     display: flex;
+  }
+  .login-form-container {
+    background-image: none !important;
+    background-color: #ffffff;
   }
 }

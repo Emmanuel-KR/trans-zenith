@@ -20,7 +20,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 
   const login = useCallback(async (credentials: Credentials) => {
-    // Mock auth: any non-empty credentials succeed.
     const username = await databaseService.login(credentials);
     window.localStorage.setItem(STORAGE_KEY, username);
     setUser(username);

@@ -1,0 +1,36 @@
+.menu-container {
+  width: 215px;
+  height: 100%;
+  min-height: 320px;
+  background-color: #ffffff;
+  font-size: 13px;
+  font-family: "Averta-Bold", sans-serif;
+  overflow-y: auto;
+  border-radius: 9px;
+  border: 1px solid #e1e6ed;
+  box-shadow: 0 9px 20px #0000000a;
+}
+
+.menu-item-standalone {
+  font-size: 13px;
+  align-items: center;
+  display: flex;
+  margin: 0 19px;
+  background: #ffffff;
+  color: #353f50;
+  min-height: 42px;
+  border-radius: 6px;
+  border-left: 6px solid transparent;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.menu-item-standalone:first-child {
+  margin-top: 35px;
+}
+
+.menu-item-standalone svg {
+  height: 0.8em;
+  width: 0.8em;
+  margin: 0 10px;
+}

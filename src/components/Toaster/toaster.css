@@ -1,0 +1,59 @@
+.toaster-container {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #e1e6ed;
+  box-shadow:
+    0px 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0px 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border-radius: 5px;
+  padding: 10px 15px;
+  width: 100%;
+}
+
+.toaster-container span {
+  display: block;
+  font-size: 13px;
+  font-family: "Averta-Bold", sans-serif;
+  line-height: 20px;
+  color: #353f50;
+}
+
+.toaster-content {
+  width: 90%;
+  overflow-wrap: break-word;
+}
+
+.toaster-title {
+  font-family: "Averta-Bolder", sans-serif !important;
+}
+
+.toaster-container svg {
+  height: 0.8em;
+  width: 0.8em;
+  margin-right: 10px;
+}
+
+.toaster-warning {
+  background: #fef6cf;
+  border: 0.758333px solid #fded94;
+  border-left: 5px solid #ec9b40;
+}
+
+.toaster-warning span {
+  color: #6b2b0d;
+}
+
+.toaster-error {
+  border-left: 5px solid #dc4437;
+}
+
+.toaster-success {
+  border-left: 5px solid #519e47;
+}
+
+.MuiSnackbar-root {
+  height: auto !important;
+  max-width: 355px !important;
+  min-width: 20em !important;
+}

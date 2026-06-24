@@ -10,7 +10,10 @@ import {
   TableRow,
 } from "@mui/material";
 
+import ErrorRoundedIcon from "@mui/icons-material/ErrorRounded";
+
 import TablePagination from "./TablePagination";
+import AddContent from "@/components/NotFound/AddContent";
 import { ACCENT_COLOR } from "@/utilities/shared/theme";
 import "./table.css";
 
@@ -72,7 +75,11 @@ export default function DataTable<T>({
   if (rows.length === 0) {
     return (
       <div className="table-container">
-        <span className="table-data-span">{emptyMessage}</span>
+        <AddContent
+          text={emptyMessage}
+          icon={<ErrorRoundedIcon style={{ fill: "#d32f2f" }} />}
+          error
+        />
       </div>
     );
   }

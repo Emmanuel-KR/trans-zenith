@@ -196,3 +196,120 @@
   margin-bottom: 4px;
   display: block;
 }
+
+/* --- Text/Password inputs (ported from transfer-advise gateway) --- */
+.text-input-container {
+  margin-bottom: 18px;
+}
+
+.text-input-label {
+  color: #353f50;
+  font-family: "Averta-Bolder", sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.display-inline {
+  display: inline !important;
+}
+
+.text-input-container input {
+  min-width: -moz-available;
+  width: -webkit-fill-available;
+  padding: 10px 12px;
+  background-color: #f8f8f8;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-family: "Averta-Bold", sans-serif;
+  font-size: 12px;
+  line-height: 21px;
+  color: #353f50;
+}
+
+.text-input-blue {
+  background-color: #ebf8fe !important;
+  border: 1px solid #0275d8 !important;
+  color: #0275d8 !important;
+  font-family: "Averta-Bolder", sans-serif !important;
+}
+
+.text-input-orange {
+  background-color: #fef6cf !important;
+  border: 1px solid #af5f26 !important;
+  color: #af5f26 !important;
+  font-family: "Averta-Bolder", sans-serif !important;
+}
+
+.text-input {
+  display: flex;
+  align-items: center;
+  background-color: #f8f8f8 !important;
+  border-radius: 4px;
+  border: 1px solid transparent !important;
+}
+
+.text-input:focus-within {
+  border: 1px solid #9ca3af !important;
+}
+
+.text-input input {
+  max-width: -moz-available;
+  min-width: 80% !important;
+}
+
+.text-input-container input:focus {
+  outline: 1px solid #9ca3af !important;
+}
+
+.text-input input:focus {
+  outline: none !important;
+}
+
+.text-input-container input:disabled {
+  cursor: not-allowed;
+}
+
+.text-input-container input::placeholder {
+  font-family: "Averta-Bold", sans-serif;
+  color: #848f9f;
+}
+
+.text-input-container-error {
+  border: 1px solid #dc4437 !important;
+}
+
+.text-input-container-error:focus-within {
+  border: 1px solid #dc4437 !important;
+}
+
+.text-input-error {
+  display: flex;
+  align-items: center;
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 20px;
+  color: #dc4437;
+}
+
+.text-input-error svg {
+  height: 0.7em;
+  width: 0.7em;
+  margin-right: 5px;
+}
+
+.text-input-icon {
+  width: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0px 12px;
+  cursor: pointer;
+}
+
+.text-input-icon svg {
+  height: 0.7em;
+  width: 0.7em;
+  color: #5f738c;
+}
