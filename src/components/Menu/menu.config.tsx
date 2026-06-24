@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
-import ReceiptLongRoundedIcon from "@mui/icons-material/ReceiptLongRounded";
+import PaymentsRoundedIcon from "@mui/icons-material/PaymentsRounded";
+import AccountBalanceWalletRoundedIcon from "@mui/icons-material/AccountBalanceWalletRounded";
 import StorefrontRoundedIcon from "@mui/icons-material/StorefrontRounded";
 import ArticleRoundedIcon from "@mui/icons-material/ArticleRounded";
 
@@ -13,10 +14,16 @@ export interface MenuItem {
 /** Side-menu entries. Order here is the order shown in the sidebar. */
 export const MENU: MenuItem[] = [
   {
-    key: "transaxis",
-    title: "Transaxis",
+    key: "disburse",
+    title: "Disburse",
     path: "/",
-    icon: <ReceiptLongRoundedIcon />,
+    icon: <PaymentsRoundedIcon />,
+  },
+  {
+    key: "wallets",
+    title: "Wallets",
+    path: "/wallets",
+    icon: <AccountBalanceWalletRoundedIcon />,
   },
   {
     key: "merchants",

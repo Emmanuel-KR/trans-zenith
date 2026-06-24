@@ -20,6 +20,9 @@ const URLS = {
   TAG_API_TRANSACTIONS: "/transactions",
   TAG_API_TRANSACTION_EXPORT: "/transactions/export",
 
+  // Merchants
+  TAG_API_MERCHANTS: "/merchants",
+
   // Audit
   TAG_API_TRANSACTION_AUDIT: "/app/audit-trail/transactions",
 };

@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
 
 import SignIn from "@/views/signin/SignIn";
 import MainApplication from "@/views/mainapplication/MainApplication";
+import Wallets from "@/views/wallets/Wallets";
 import Merchants from "@/views/merchants/Merchants";
 import Shlog from "@/views/shlog/Shlog";
 import Layout from "@/components/Layout";
@@ -25,6 +26,7 @@ export const router = createBrowserRouter([
         element: <Layout />,
         children: [
           { path: "/", element: <MainApplication /> },
+          { path: "/wallets", element: <Wallets /> },
           { path: "/merchants", element: <Merchants /> },
           { path: "/shlog", element: <Shlog /> },
         ],

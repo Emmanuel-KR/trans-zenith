@@ -1,5 +1,5 @@
 import URLS from "@/utilities/endpoints";
-import type { Credentials, Transaction } from "@/utilities/shared/types";
+import type { Credentials, MerchantTransaction, Transaction } from "@/utilities/shared/types";
 
 const BASE_URL = `${URLS.TAG_BASE_URL}${URLS.TAG_BASE_PATH}`;
 const TOKEN_KEY = "tz.auth.token";
@@ -156,6 +156,59 @@ class DatabaseService {
 
     return {
       items: transactions,
+      pagination: rawData.pagination,
+    };
+  }
+
+  /** Fetch merchant transactions with optional date filtering, sorting and pagination. */
+  async getMerchants(params?: {
+    start_date?: string;
+    end_date?: string;
+    sort_by?: string;
+    sort_order?: "asc" | "desc";
+    page?: number;
+    page_size?: number;
+    [key: string]: any;
+  }): Promise<{ items: MerchantTransaction[]; pagination?: any }> {
+    const query = new URLSearchParams();
+    if (params) {
+      Object.entries(params).forEach(([key, value]) => {
+        if (value !== undefined && value !== null && value !== "") {
+          query.append(key, String(value));
+        }
+      });
+    }
+
+    const queryString = query.toString();
+    const url = `${BASE_URL}${URLS.TAG_API_MERCHANTS}${queryString ? `?${queryString}` : ""}`;
+
+    const response = await fetch(url, {
+      headers: this.getHeaders(),
+    });
+
+    if (response.status === 401) {
+      this.logout();
+      window.location.href = "/signin";
+      throw new Error("Session expired. Please sign in again.");
+    }
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({}));
+      throw new Error(error.detail || `Failed to fetch merchants: ${response.statusText}`);
+    }
+
+    const rawData = await response.json();
+
+    // The endpoint may return a bare array, a paginated { items } envelope
+    // or a { data } envelope — normalise all three to an array.
+    const items = Array.isArray(rawData) ? rawData : rawData.items || rawData.data || [];
+
+    if (!Array.isArray(items)) {
+      throw new Error("Invalid response format: expected an array of merchants.");
+    }
+
+    return {
+      items: items as MerchantTransaction[],
       pagination: rawData.pagination,
     };
   }
