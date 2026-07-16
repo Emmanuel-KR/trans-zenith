@@ -9,6 +9,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import type { SxProps, Theme } from "@mui/material/styles";
 
 import ErrorRoundedIcon from "@mui/icons-material/ErrorRounded";
 
@@ -29,6 +30,7 @@ export interface DataTableProps<T> {
   /** Custom cell renderer; falls back to row[key] when it returns undefined. */
   renderCell?: (key: string, row: T) => ReactNode;
   onRowClick?: (row: T) => void;
+  getRowSx?: (row: T) => SxProps<Theme> | undefined;
   color?: string;
   rowsPerPage?: number;
   emptyMessage?: ReactNode;
@@ -48,7 +50,7 @@ const StyledTableCell = styled(TableCell)(() => ({
   [`&.${tableCellClasses.body}`]: {
     fontSize: 12,
     fontFamily: `"Averta-Bold", sans-serif`,
-    color: "#353F50",
+    color: "inherit",
     padding: "8px 9px",
   },
 }));
@@ -59,6 +61,7 @@ export default function DataTable<T>({
   getRowId,
   renderCell,
   onRowClick,
+  getRowSx,
   color = ACCENT_COLOR,
   rowsPerPage = 8,
   emptyMessage = "No results found.",
@@ -96,7 +99,7 @@ export default function DataTable<T>({
   return (
     <div className="table-container">
       <TableContainer>
-        <Table>
+        <Table sx={{ color: "#353F50" }}>
           <TableHead>
             <TableRow>
               {headers.map((header) => (
@@ -109,6 +112,7 @@ export default function DataTable<T>({
               <TableRow
                 key={getRowId(row)}
                 hover={Boolean(onRowClick)}
+                sx={getRowSx?.(row)}
                 style={onRowClick ? { cursor: "pointer" } : undefined}
                 onClick={() => onRowClick?.(row)}
               >

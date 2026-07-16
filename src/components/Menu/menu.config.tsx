@@ -31,10 +31,10 @@ export const MENU: MenuItem[] = [
     path: "/merchants",
     icon: <StorefrontRoundedIcon />,
   },
-  {
-    key: "shlog",
-    title: "Shlog",
-    path: "/shlog",
-    icon: <ArticleRoundedIcon />,
-  },
+  // {
+  //   key: "shlog",
+  //   title: "Shlog",
+  //   path: "/shlog",
+  //   icon: <ArticleRoundedIcon />,
+  // },
 ];

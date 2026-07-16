@@ -57,19 +57,19 @@ const HEADERS: DataTableHeader[] = [
   { key: "provider", title: "Provider" },
   { key: "fromaccount", title: "From Account" },
   { key: "toaccount", title: "To Account" },
-  // { key: "profileName", title: "Profile Name" },
+  { key: "profileName", title: "Profile Name" },
   { key: "paymentName", title: "Payment Name" },
   { key: "amount", title: "Amount" },
   { key: "fee", title: "Fee" },
   { key: "currency", title: "Currency" },
   { key: "responsecode", title: "RSP" },
   { key: "responsemessage", title: "RSP_INFO" },
-  { key: "action", title: "Actions" },
+  // { key: "action", title: "Actions" },
 ];
 
 const TX_TONE: Record<string, PillTone> = {
-  "00": "green",
-  "0": "green",
+  "00": "black",
+  "0": "black",
 };
 
 const SEARCHABLE_KEYS: (keyof Transaction)[] = [
@@ -348,6 +348,15 @@ export default function MainApplication() {
               getRowId={(t) => t.instid}
               renderCell={renderCell}
               onRowClick={setViewTx}
+              getRowSx={(row) => {
+                const responseCode = String(row.responsecode);
+                const isSuccess = responseCode === "0" || responseCode === "00";
+                if (isSuccess) return undefined;
+
+                return {
+                  color: "#dc4437",
+                };
+              }}
               color={ACCENT_COLOR}
               rowsPerPage={10}
               emptyMessage="Oops, there are currently no transactions to display in the system"
@@ -437,16 +446,17 @@ export default function MainApplication() {
                 <Typography sx={{ fontSize: 18, fontWeight: 700, color: "#353F50" }}>
                   Transaction Details
                 </Typography>
-                <Typography sx={{ fontSize: 13, color: "#7f91a8", mt: 0.5 }}>
+                {/* <Typography sx={{ fontSize: 13, color: "#7f91a8", mt: 0.5 }}>
                   {viewTx.rrn} · {viewTx.instid} · {fmtDate(viewTx.createdate)}
-                </Typography>
+                </Typography> */}
               </Box>
               <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
-                <TablePill
-                  state={viewTx.trantype}
+                {/* <TablePill state={viewTx.trantype}
                   // tone={TX_TONE[viewTx.transactionType]}
-                />
-                <TablePill state={viewTx.responsemessage} />
+                /> */}
+                <TablePill state={viewTx.trantype} tone={TX_TONE[viewTx.responsecode] || "red"} />
+                <TablePill state={viewTx.responsemessage} tone={TX_TONE[viewTx.responsecode] || "red"} />
+                {/* <TablePill state={viewTx.responsemessage} /> */}
                 <IconButton size="small" onClick={() => setViewTx(null)}>
                   <CloseRoundedIcon fontSize="small" />
                 </IconButton>

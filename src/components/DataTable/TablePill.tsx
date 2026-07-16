@@ -1,7 +1,7 @@
 import CircleIcon from "@mui/icons-material/Circle";
 import "./table.css";
 
-export type PillTone = "green" | "orange" | "red" | "blue";
+export type PillTone = "green" | "orange" | "red" | "blue" | "black";
 
 const GREEN = new Set(["Success", "ACTIVE", "PAID", "Paid", "Approved", "Sent", "Posted"]);
 const ORANGE = new Set(["Pending", "Processing", "NEW", "Staged", "Draft"]);

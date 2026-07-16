@@ -42,6 +42,12 @@
   background: #ebf8fe;
 }
 
+.table-pill.black {
+  color: #111827;
+  border: 1px solid #d1d5db;
+  background: #f3f4f6;
+}
+
 .table-actions {
   display: flex;
   align-items: center;
