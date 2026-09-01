@@ -73,7 +73,7 @@ export default function SignIn() {
         <form className="login-form" onSubmit={handleSubmit}>
           <img className="login-logo" src={iswLogo} alt="Interswitch" />
           <h1>Hello, Welcome</h1>
-          <h3>Enter credentials to login</h3>
+          <h3>Enter your domain credentials to login</h3>
 
           <Stack spacing={2}>
             <TextInput

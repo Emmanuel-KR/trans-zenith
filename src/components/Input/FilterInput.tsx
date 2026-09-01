@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Popover } from "@mui/material";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -16,6 +16,8 @@ export interface FilterGroupDef {
   options: readonly string[];
   selected: string[];
   onToggle: (value: string) => void;
+  /** When true the group allows only a single selection (renders radios). */
+  single?: boolean;
 }
 
 interface FilterInputProps {
@@ -28,10 +30,22 @@ interface FilterInputProps {
 export default function FilterInput({ color = ACCENT_COLOR, groups, onReset }: FilterInputProps) {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const [activeLabel, setActiveLabel] = useState(groups[0]?.label ?? "");
+  const [localSelections, setLocalSelections] = useState<Record<string, string[]>>({});
 
   const open = Boolean(anchorEl);
   const activeGroup = groups.find((g) => g.label === activeLabel) ?? groups[0];
   const totalSelected = groups.reduce((sum, g) => sum + g.selected.length, 0);
+
+  useEffect(() => {
+    if (open) {
+      const map: Record<string, string[]> = {};
+      groups.forEach((g) => {
+        map[g.label] = [...g.selected];
+      });
+      setLocalSelections(map);
+      if (!activeLabel && groups[0]) setActiveLabel(groups[0].label);
+    }
+  }, [open, groups]);
 
   return (
     <div className="filter-input">
@@ -72,19 +86,70 @@ export default function FilterInput({ color = ACCENT_COLOR, groups, onReset }: F
             onChange={setActiveLabel}
           />
           <div className="filter-options">
-            {activeGroup?.options.map((option) => (
-              <CheckboxInput
-                key={option}
+            {activeGroup?.single ? (
+              <RadioInput
                 color={color}
-                text={option}
-                checked={activeGroup.selected.includes(option)}
-                onChange={() => activeGroup.onToggle(option)}
+                options={activeGroup.options}
+                value={localSelections[activeGroup.label]?.[0] ?? ""}
+                onChange={(v) =>
+                  setLocalSelections((s) => ({
+                    ...s,
+                    [activeGroup.label]: s[activeGroup.label] && s[activeGroup.label][0] === v ? [] : [v],
+                  }))
+                }
               />
-            ))}
+            ) : (
+              activeGroup?.options.map((option) => (
+                <CheckboxInput
+                  key={option}
+                  color={color}
+                  text={option}
+                  checked={localSelections[activeGroup.label]?.includes(option) ?? false}
+                  onChange={() =>
+                    setLocalSelections((s) => {
+                      const cur = s[activeGroup.label] ?? [];
+                      return {
+                        ...s,
+                        [activeGroup.label]: cur.includes(option) ? cur.filter((x) => x !== option) : [...cur, option],
+                      };
+                    })
+                  }
+                />
+              ))
+            )}
           </div>
           <div className="filter-buttons">
-            <AppFormButton text="Reset" color="invert" action={onReset} />
-            <AppFormButton text="Apply" color={color} action={() => setAnchorEl(null)} />
+            <AppFormButton
+              text="Reset"
+              color="invert"
+              action={() => {
+                onReset();
+                // clear local selections as well
+                const cleared: Record<string, string[]> = {};
+                groups.forEach((g) => (cleared[g.label] = []));
+                setLocalSelections(cleared);
+              }}
+            />
+            <AppFormButton
+              text="Apply"
+              color={color}
+              action={() => {
+                // apply staged selections to actual groups
+                groups.forEach((g) => {
+                  const desired = localSelections[g.label] ?? [];
+                  const current = g.selected ?? [];
+                  // remove all current first
+                  current.forEach((v) => {
+                    if (!desired.includes(v)) g.onToggle(v);
+                  });
+                  // then add desired (those not present)
+                  desired.forEach((v) => {
+                    if (!current.includes(v)) g.onToggle(v);
+                  });
+                });
+                setAnchorEl(null);
+              }}
+            />
           </div>
         </div>
       </Popover>

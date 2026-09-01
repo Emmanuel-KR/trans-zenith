@@ -44,9 +44,18 @@ class DatabaseService {
     return headers;
   }
 
-  /** Logout helper to clear tokens */
-  logout() {
-    window.localStorage.removeItem(TOKEN_KEY);
+  /** Logout helper: notify backend and clear local token */
+  async logout(): Promise<void> {
+    try {
+      await fetch(`${BASE_URL}${URLS.TAG_API_LOGOUT}`, {
+        method: "POST",
+        headers: this.getHeaders(),
+      });
+    } catch (err) {
+      // Ignore network errors during logout — we'll still clear local state
+    } finally {
+      window.localStorage.removeItem(TOKEN_KEY);
+    }
   }
 
   /** Export transactions as CSV, XLSX, or JSON */
@@ -90,6 +99,53 @@ class DatabaseService {
     if (!response.ok) {
       const error = await response.json().catch(() => ({}));
       throw new Error(error.detail || `Failed to export transactions: ${response.statusText}`);
+    }
+
+    return await response.blob();
+  }
+
+  /** Export merchants as CSV, XLSX, or JSON */
+  async exportMerchants(
+    format: "csv" | "xlsx" | "json",
+    params?: {
+      start_date?: string;
+      end_date?: string;
+      trantype?: string;
+      merchant?: string;
+      merchant_name?: string;
+      status?: string;
+      page?: number;
+      page_size?: number;
+      [key: string]: any;
+    },
+  ): Promise<Blob> {
+    const query = new URLSearchParams();
+    query.append("format", format);
+
+    if (params) {
+      Object.entries(params).forEach(([key, value]) => {
+        if (value !== undefined && value !== null && value !== "") {
+          query.append(key, String(value));
+        }
+      });
+    }
+
+    const queryString = query.toString();
+    const url = `${BASE_URL}${URLS.TAG_API_MERCHANTS_EXPORT}?${queryString}`;
+
+    const response = await fetch(url, {
+      headers: this.getHeaders(),
+    });
+
+    if (response.status === 401) {
+      this.logout();
+      window.location.href = "/signin";
+      throw new Error("Session expired. Please sign in again.");
+    }
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({}));
+      throw new Error(error.detail || `Failed to export merchants: ${response.statusText}`);
     }
 
     return await response.blob();

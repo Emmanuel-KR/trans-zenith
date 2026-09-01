@@ -9,7 +9,8 @@ const URLS = {
   // Authentication
   TAG_API_AUTH: "/auth/login",
   TAG_API_VALIDATE_OTP: "/validate-otp",
-  TAG_API_LOGOUT: "/app/users/log-out",
+  // Standard logout endpoint
+  TAG_API_LOGOUT: "/auth/logout",
   TAG_API_STATUS: "/keys",
 
   // Users
@@ -22,6 +23,7 @@ const URLS = {
 
   // Merchants
   TAG_API_MERCHANTS: "/merchants",
+  TAG_API_MERCHANTS_EXPORT: "/merchants/export",
 
   // Audit
   TAG_API_TRANSACTION_AUDIT: "/app/audit-trail/transactions",

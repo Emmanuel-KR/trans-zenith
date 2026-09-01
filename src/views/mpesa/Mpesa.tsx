@@ -18,7 +18,7 @@ const HEADERS: DataTableHeader[] = [
 
 const LEVEL_OPTIONS = ["INFO", "WARN", "ERROR", "DEBUG"] as const;
 
-interface ShlogEntry {
+interface MpesaEntry {
   id: string;
   timestamp: string;
   level: string;
@@ -27,13 +27,13 @@ interface ShlogEntry {
   status: string;
 }
 
-export default function Shlog() {
+export default function Mpesa() {
   const [search, setSearch] = useState("");
   const [, setDateRange] = useState<DateRange | null>(null);
   const [selectedLevels, setSelectedLevels] = useState<string[]>([]);
 
   // Rows will be populated from the API during integration.
-  const rows: ShlogEntry[] = [];
+  const rows: MpesaEntry[] = [];
 
   const filterGroups: FilterGroupDef[] = [
     {
@@ -47,7 +47,7 @@ export default function Shlog() {
     },
   ];
 
-  const renderCell = (key: string, row: ShlogEntry) => {
+  const renderCell = (key: string, row: MpesaEntry) => {
     if (key === "status") return <TablePill state={row.status} />;
     return undefined;
   };
@@ -62,7 +62,7 @@ export default function Shlog() {
         filterGroups={filterGroups}
         onFilterReset={() => setSelectedLevels([])}
         onExport={() => {
-          // TODO: wire up to the shlog export API.
+          // TODO: wire up to the Mpesa export API.
         }}
       />
 
@@ -77,7 +77,7 @@ export default function Shlog() {
           renderCell={renderCell}
           color={ACCENT_COLOR}
           rowsPerPage={10}
-          emptyMessage="Oops, you currently do not have any logs in the system"
+          emptyMessage="Coming up soon! This page will display Mpesa Transactions..."
         />
       </Paper>
     </Box>

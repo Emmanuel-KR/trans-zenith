@@ -4,7 +4,7 @@ import SignIn from "@/views/signin/SignIn";
 import MainApplication from "@/views/mainapplication/MainApplication";
 import Wallets from "@/views/wallets/Wallets";
 import Merchants from "@/views/merchants/Merchants";
-import Shlog from "@/views/shlog/Shlog";
+import Mpesa from "@/views/mpesa/Mpesa";
 import Layout from "@/components/Layout";
 import { useAuth } from "@/utilities/shared/auth";
 
@@ -28,7 +28,7 @@ export const router = createBrowserRouter([
           { path: "/", element: <MainApplication /> },
           { path: "/wallets", element: <Wallets /> },
           { path: "/merchants", element: <Merchants /> },
-          { path: "/shlog", element: <Shlog /> },
+          { path: "/mpesa", element: <Mpesa /> },
         ],
       },
     ],

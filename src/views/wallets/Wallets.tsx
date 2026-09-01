@@ -79,7 +79,7 @@ export default function Wallets() {
           color={ACCENT_COLOR}
           rowsPerPage={10}
           // emptyMessage="Oops, you currently do not have any wallets in the system"
-          emptyMessage="Coming up soon! This page will display all the wallet Transactions..."
+          emptyMessage="Coming up soon! This page will display wallets Transactions..."
 
         />
       </Paper>

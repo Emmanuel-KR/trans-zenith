@@ -8,7 +8,7 @@ import Menu from "@/components/Menu";
 export default function Layout() {
   return (
     <Box sx={{ bgcolor: "#f5f6f8", minHeight: "100vh" }}>
-      <Header title="Transaction Portal" />
+      <Header title="Transactions Portal" />
       <Box
         sx={{
           display: "flex",

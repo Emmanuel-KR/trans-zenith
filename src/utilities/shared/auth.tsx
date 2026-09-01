@@ -9,7 +9,7 @@ interface AuthContextValue {
   user: string | null;
   isAuthenticated: boolean;
   login: (credentials: Credentials) => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -25,10 +25,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(username);
   }, []);
 
-  const logout = useCallback(() => {
-    databaseService.logout();
+  const logout = useCallback(async () => {
+    try {
+      await databaseService.logout();
+    } catch (err) {
+      // Ignore — still clear local state
+    }
     window.localStorage.removeItem(STORAGE_KEY);
     setUser(null);
+    // Redirect to signin after logout
+    window.location.href = "/signin";
   }, []);
 
   const value = useMemo<AuthContextValue>(

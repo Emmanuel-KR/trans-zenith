@@ -77,12 +77,12 @@ export default function DateInput({ color = ACCENT_COLOR, onChange }: DateInputP
 
   const resolveRange = (p: Preset): DateRange | null => {
     const now = new Date();
-    if (p === "All Dates") return null;
+    if (p === "All Dates") return { start: startOfDay(now), end: endOfDay(now) };
     if (p === "Today") return { start: startOfDay(now), end: endOfDay(now) };
     if (p === "Custom") {
-      if (fromDate && toDate) return { start: startOfDay(fromDate), end: endOfDay(toDate) };
-      return null;
-    }
+        if (fromDate && toDate) return { start: startOfDay(fromDate), end: endOfDay(toDate) };
+        return null;
+      }
     const days = PRESET_DAYS[p] ?? 0;
     return { start: startOfDay(subDays(now, days)), end: endOfDay(now) };
   };
@@ -128,7 +128,7 @@ export default function DateInput({ color = ACCENT_COLOR, onChange }: DateInputP
   const handleApply = () => {
     const range = resolveRange(preset);
     onChange(range, preset);
-    setActive(preset !== "All Dates" && range !== null);
+    setActive(range !== null);
     setAnchorEl(null);
   };
 
@@ -137,8 +137,9 @@ export default function DateInput({ color = ACCENT_COLOR, onChange }: DateInputP
     setCustomValue("");
     setFromDate(null);
     setToDate(null);
-    setActive(false);
-    onChange(null, "All Dates");
+    const todayRange = { start: startOfDay(new Date()), end: endOfDay(new Date()) };
+    setActive(true);
+    onChange(todayRange, "All Dates");
     setAnchorEl(null);
   };
 
@@ -260,7 +261,7 @@ export default function DateInput({ color = ACCENT_COLOR, onChange }: DateInputP
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   {customValue === "year" ? (
                     <DateCalendar
-                      views={["year"]}
+                      views={["year", "month", "day"]}
                       openTo="year"
                       value={fromDate}
                       onChange={handleYearClick}
@@ -269,17 +270,68 @@ export default function DateInput({ color = ACCENT_COLOR, onChange }: DateInputP
                       sx={{ width: 290, maxHeight: 260 }}
                     />
                   ) : (
-                    <>
-                      <span className="filter-date-range-label">{rangeLabel}</span>
-                      <DateCalendar
-                        value={toDate ?? fromDate}
-                        onChange={handleDayClick}
-                        slots={{ day: RangeDay }}
-                        disableFuture
-                        maxDate={rangeMaxDate}
-                        sx={{ width: 290, maxHeight: 300 }}
-                      />
-                    </>
+                    <div style={{ display: "flex", gap: 12 }}>
+                      {/* Year quick-jump selects */}
+                      <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                        <span className="filter-date-range-label">From</span>
+                        <select
+                          aria-label="From year"
+                          value={fromDate ? fromDate.getFullYear() : ""}
+                          onChange={(e) => {
+                            const y = Number(e.target.value);
+                            if (!Number.isNaN(y)) setFromDate(new Date(y, 0, 1));
+                          }}
+                          style={{ marginBottom: 8 }}
+                        >
+                          <option value="">Jump to year</option>
+                          {Array.from({ length: new Date().getFullYear() - MIN_YEAR.getFullYear() + 1 }, (_, i) =>
+                            MIN_YEAR.getFullYear() + i,
+                          ).reverse().map((yr) => (
+                            <option key={yr} value={yr}>
+                              {yr}
+                            </option>
+                          ))}
+                        </select>
+                        <DateCalendar
+                          views={["day", "month", "year"]}
+                          value={fromDate}
+                          onChange={(d) => d && setFromDate(d)}
+                          disableFuture
+                          maxDate={today}
+                          sx={{ width: 220, maxHeight: 300 }}
+                        />
+                      </div>
+                      <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                        <span className="filter-date-range-label">To</span>
+                        <select
+                          aria-label="To year"
+                          value={toDate ? toDate.getFullYear() : ""}
+                          onChange={(e) => {
+                            const y = Number(e.target.value);
+                            if (!Number.isNaN(y)) setToDate(new Date(y, 11, 31));
+                          }}
+                          style={{ marginBottom: 8 }}
+                        >
+                          <option value="">Jump to year</option>
+                          {Array.from({ length: new Date().getFullYear() - MIN_YEAR.getFullYear() + 1 }, (_, i) =>
+                            MIN_YEAR.getFullYear() + i,
+                          ).reverse().map((yr) => (
+                            <option key={yr} value={yr}>
+                              {yr}
+                            </option>
+                          ))}
+                        </select>
+                        <DateCalendar
+                          views={["day", "month", "year"]}
+                          value={toDate ?? fromDate}
+                          onChange={(d) => d && setToDate(d)}
+                          disableFuture
+                          minDate={fromDate ?? undefined}
+                          maxDate={fromDate ? minDate([addDays(fromDate, MAX_RANGE_DAYS), today]) : today}
+                          sx={{ width: 220, maxHeight: 300 }}
+                        />
+                      </div>
+                    </div>
                   )}
                 </LocalizationProvider>
               </div>

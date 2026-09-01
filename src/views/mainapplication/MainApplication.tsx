@@ -21,7 +21,7 @@ import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import DescriptionIcon from "@mui/icons-material/Description";
 import GridOnIcon from "@mui/icons-material/GridOn";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-import { isWithinInterval, format } from "date-fns";
+import { isWithinInterval, format, startOfDay, endOfDay } from "date-fns";
 
 import { databaseService } from "@/services/database.service";
 import { fmtDate, fmtMoney } from "@/utilities/shared/format";
@@ -29,12 +29,8 @@ import { ACCENT_COLOR } from "@/utilities/shared/theme";
 import {
   INSTITUTIONS,
   TX_TYPES,
-  DB_NAMES,
-  RESP_TYPES,
   type Transaction,
   type TxType,
-  type DbName,
-  type RespType,
 } from "@/utilities/shared/types";
 
 import { type DateRange } from "@/components/Input/DateInput";
@@ -88,31 +84,36 @@ const SEARCHABLE_KEYS: (keyof Transaction)[] = [
 ];
 
 export default function MainApplication() {
-  const defaultDateRange = useMemo(
-    () => ({
-      start: new Date("2025-06-01"),
-      end: new Date("2026-06-18"),
-    }),
-    [],
-  );
+  const defaultDateRange = useMemo(() => {
+    const now = new Date();
+    return { start: startOfDay(now), end: endOfDay(now) };
+  }, []);
 
   const [dateRange, setDateRange] = useState<DateRange | null>(defaultDateRange);
   const [search, setSearch] = useState("");
   const [selectedTypes, setSelectedTypes] = useState<TxType[]>([]);
-  const [selectedDbs, setSelectedDbs] = useState<DbName[]>([]);
+  const [selectedStatus, setSelectedStatus] = useState<string[]>([]);
   const [selectedInsts, setSelectedInsts] = useState<string[]>([]);
+
+const responseCodeFilter = selectedStatus[0]
+    ? selectedStatus[0] === "Successful"
+      ? "00"
+      : "failed"
+    : undefined;
 
   const {
     data: response,
     status,
     error,
   } = useQuery({
-    queryKey: ["transactions", dateRange, search, selectedTypes, selectedInsts],
+    queryKey: ["transactions", dateRange, search, selectedTypes, selectedInsts, selectedStatus],
     queryFn: () =>
       databaseService.getTransactions({
         start_date: dateRange?.start ? format(dateRange.start, "yyyy-MM-dd") : undefined,
         end_date: dateRange?.end ? format(dateRange.end, "yyyy-MM-dd") : undefined,
         trantype: selectedTypes.length > 0 ? selectedTypes.join(",") : undefined,
+        responsecode: responseCodeFilter,
+        inst: selectedInsts.length > 0 ? selectedInsts.join(",") : undefined,
         search: search || undefined,
         page: 1,
         page_size: 500, // Reduced from 1000 to a safer value that still covers 96
@@ -187,25 +188,29 @@ export default function MainApplication() {
       label: "Transaction Type",
       options: TX_TYPES,
       selected: selectedTypes,
-      onToggle: (v) => toggle(selectedTypes, v as TxType, setSelectedTypes),
+      single: true,
+      onToggle: (v) => setSelectedTypes(selectedTypes.includes(v as TxType) ? [] : [v as TxType]),
     },
     {
-      label: "DB Name",
-      options: DB_NAMES,
-      selected: selectedDbs,
-      onToggle: (v) => toggle(selectedDbs, v as DbName, setSelectedDbs),
+      label: "Status",
+      options: ["Successful", "Failed"],
+      selected: selectedStatus,
+      single: true,
+      onToggle: (v) => setSelectedStatus(selectedStatus.includes(v) ? [] : [v]),
     },
     {
       label: "Institution",
       options: INSTITUTIONS,
       selected: selectedInsts,
-      onToggle: (v) => toggle(selectedInsts, v, setSelectedInsts),
+      single: true,
+      onToggle: (v) => setSelectedInsts(selectedInsts.includes(v) ? [] : [v]),
+      // onToggle: (v) => toggle(selectedInsts, v, setSelectedInsts),
     },
   ];
 
   const resetFilters = () => {
     setSelectedTypes([]);
-    setSelectedDbs([]);
+    setSelectedStatus([]);
     setSelectedInsts([]);
   };
 
@@ -214,6 +219,12 @@ export default function MainApplication() {
     return transactions.filter((t) => {
       if (dateRange && !isWithinInterval(t.createdate, dateRange)) return false;
       if (selectedTypes.length && !selectedTypes.includes(t.trantype)) return false;
+      if (selectedStatus.length) {
+        const responseCode = String(t.responsecode);
+        const isSuccess = responseCode === "0" || responseCode === "00";
+        if (selectedStatus[0] === "Successful" && !isSuccess) return false;
+        if (selectedStatus[0] === "Failed" && isSuccess) return false;
+      }
       if (selectedInsts.length && !selectedInsts.includes(t.inst)) return false;
       if (q) {
         const hay = [...SEARCHABLE_KEYS.map((k) => String(t[k])), fmtDate(t.createdate)]
@@ -223,7 +234,7 @@ export default function MainApplication() {
       }
       return true;
     });
-  }, [transactions, search, dateRange, selectedTypes, selectedInsts]);
+  }, [transactions, search, dateRange, selectedTypes, selectedInsts, selectedStatus]);
 
   const handleExportConfirm = async () => {
     if (!exportFormat) return;
@@ -232,17 +243,26 @@ export default function MainApplication() {
     setExportError(null);
 
     try {
-      const blob = await databaseService.exportTransactions(exportFormat, {
+      // Build export parameters from current UI filters
+      const params: Record<string, any> = {
         start_date: dateRange?.start ? format(dateRange.start, "yyyy-MM-dd") : undefined,
         end_date: dateRange?.end ? format(dateRange.end, "yyyy-MM-dd") : undefined,
         trantype: selectedTypes.length > 0 ? selectedTypes.join(",") : undefined,
+        responsecode: responseCodeFilter,
+        // include both a human `status` and the numeric `responsecode` to be compatible
+        status: selectedStatus.length ? selectedStatus[0] : undefined,
+        inst: selectedInsts.length > 0 ? selectedInsts.join(",") : undefined,
+        institution: selectedInsts.length > 0 ? selectedInsts.join(",") : undefined,
+        search: search || undefined,
         page: 1,
         page_size: 500,
         sort_by: "createdate",
         sort_order: "desc",
-      });
+      };
 
-      // Create a download link and trigger it
+      const blob = await databaseService.exportTransactions(exportFormat, params);
+
+      // Trigger download of server-generated blob
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
@@ -358,7 +378,7 @@ export default function MainApplication() {
                 };
               }}
               color={ACCENT_COLOR}
-              rowsPerPage={10}
+              rowsPerPage={12}
               emptyMessage="Oops, there are currently no transactions to display in the system"
             />
           </Paper>
